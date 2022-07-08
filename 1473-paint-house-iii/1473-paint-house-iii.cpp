@@ -1,23 +1,23 @@
 class Solution {
+    vector<int> H;
+    vector<vector<int>> C;
+    int M, N, T, INF = 1e9 + 7;
+    vector<vector<vector<int>>> memo;
+    int dp(int i, int last, int cnt) {
+        if (cnt > T) return INF;
+        if (i == M) return cnt == T ? 0 : INF;
+        if (memo[i][last][cnt] != -1) return memo[i][last][cnt];
+        if (H[i]) return memo[i][last][cnt] = dp(i + 1, H[i], H[i] == last ? cnt : (cnt + 1));
+        int ans = INF;
+        for (int j = 0; j < N; ++j) ans = min(ans, C[i][j] + dp(i + 1, j + 1, j + 1 == last ? cnt : (cnt + 1)));
+        return memo[i][last][cnt] = ans;
+    }
 public:
-    int dp[101][23][101];
     int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
-        memset(dp, -1, sizeof(dp));
-        int res = dfs(houses, cost, 0, n + 1, target);
-        return res >= 10000000 ? -1 : res;
+        H = houses, C = cost, M = m, N = n, T = target;
+        memo.assign(M, vector<vector<int>>(N + 1, vector<int>(T + 1, -1)));
+        int ans = dp(0, 0, 0);
+        return ans == INF ? -1 : ans;
     }
-    
-    int dfs(vector<int>& houses, vector<vector<int>>& cost, int i, int prev, int target) {
-        if(i >= houses.size())
-            return target != 0 ? 10000000 : 0;
-        if(target < 0) return 10000000;
-        if(dp[i][prev][target] >= 0) return dp[i][prev][target];
-        int res = INT_MAX;
-        if(houses[i] == 0) {
-            for(int j = 0; j < cost[i].size(); ++j) 
-                res = min(res, cost[i][j] + dfs(houses, cost, i + 1, j+1, target - (j+1 != prev)));
-        }else
-            res = min(res, dfs(houses, cost, i + 1, houses[i], target - (houses[i] != prev)));
-        return dp[i][prev][target] = res;
-    }
+	// If you find helpful than upvote
 };
