@@ -4,7 +4,7 @@ public:
     vector<int>lps;
     int m, n;
     string s1, s2, evil;
-    int dp[500][51][2][2];
+    int dp[501][51][2][2];
     int solve(int i, int matched, int left, int right){
         if(matched == m) return 0;
         if(i == n) return 1;
