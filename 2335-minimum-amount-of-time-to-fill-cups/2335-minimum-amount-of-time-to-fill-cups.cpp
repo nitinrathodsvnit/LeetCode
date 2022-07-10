@@ -7,7 +7,6 @@ public:
       int z=amount[2];
       int sum=x+y+z;
       if(x+y>z) return sum/2+sum%2;
-      // if(x==0 && y==0) return z;
       return z;
     }
 };
