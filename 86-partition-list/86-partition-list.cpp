@@ -1,12 +1,23 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode lessHead(0), moreHead(0), *less = &lessHead, *more = &moreHead;
-        while (head) {
-            auto& end = head->val < x ? less : more;
-            end = end->next = exchange(head, exchange(head->next, nullptr));
+        if(head == NULL || head->next == NULL) return head;
+        ListNode* temp = head, *cur = head;
+        while(temp){
+            if(temp->val < x){
+                int value = temp->val;
+                ListNode* dup = cur;
+                while(dup){
+                    int y = dup->val;
+                    dup->val = value;
+                    value = y;
+                    if(dup == temp) break;
+                    dup=dup->next;
+                }
+                cur = cur->next;
+            }
+            temp = temp->next;
         }
-        less->next = moreHead.next;
-        return lessHead.next;
+        return head;
     }
 };
