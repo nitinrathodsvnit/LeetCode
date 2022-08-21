@@ -9,7 +9,7 @@ public:
             while(record.find(prev)!=record.end()) prev--;
             while(record.find(next)!=record.end()) next++;
             ans = max(ans, next-prev-1);
-            record.erase(it);
+            record.erase(it);    //must do other wise you got tle
         }
         return ans;
     }
