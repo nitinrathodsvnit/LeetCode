@@ -10,7 +10,7 @@ public:
         int ans=0, tm=0;
         for(auto it: mp){
             tm+=it.second;
-            ans = max({ans, it.second, tm});
+            ans = max({ans, tm});
         }
         return ans;
     }
