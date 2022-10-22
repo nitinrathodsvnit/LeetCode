@@ -5,7 +5,6 @@ public:
         vector<int> remaining(128, 0);
         int required = t.size();
         for (int i = 0; i < required; i++) remaining[t[i]]++;
-        // left is the start index of the min-length substring ever found
         int min = INT_MAX, start = 0, left = 0, i = 0;
         while(i <= s.size() && start < s.size()) {
             if(required) {
