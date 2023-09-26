@@ -1,24 +1,35 @@
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        string res="";
-        int lastPos[26] = {}; 
-        bool added[26] = {}; 
-        for (int i = 0; i < s.size(); i++)
-        {
-            lastPos[s[i] - 'a'] = i;
+        int len = s.size();
+        string res = "";
+        unordered_map<char, int> M;
+        unordered_map<char, bool> V;
+        stack<int> S;
+        
+        for (auto c : s) {
+            if (M.find(c) == M.end()) M[c] = 1;
+            else M[c]++; 
         }
-        for (int i = 0; i < s.size(); i++)
-        {
-            if (added[s[i] - 'a']) continue;
-            while ( !res.empty() && res.back() > s[i] && lastPos[res.back() - 'a'] > i)
-            {
-                added[res.back() - 'a'] = false;
-                res.pop_back();
+        for (unordered_map<char, int>::iterator iter=M.begin(); iter!=M.end(); iter++) V[iter->first] = false;
+        
+        cout<<M.size()<<V.size()<<endl;
+        for (int i=0; i<len; i++) {
+            M[s[i]]--;
+            if (V[s[i]] == true) continue;
+            
+            while (!S.empty() and s[i] < s[S.top()] and M[s[S.top()]] > 0) {
+                V[s[S.top()]] = false;
+                S.pop();
             }
-            res.push_back(s[i]);
-            added[s[i] - 'a'] = true;
+            S.push(i);
+            V[s[i]] = true;
+        }
+        while (!S.empty()) {
+            res = s[S.top()] + res;
+            S.pop();
         }
         return res;
     }
 };
+
